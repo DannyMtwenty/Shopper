@@ -12,7 +12,7 @@ version = 1)
 
 abstract class ShopperDatabase : RoomDatabase() {
 
-   // abstract fun getShopperDao() : ShopperDao
+    abstract fun getShopperDao() : ShopperDao
 
     //implementing singleton
     //to prevent many instances of shopperdatabase from being created at same time
