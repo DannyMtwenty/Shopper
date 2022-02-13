@@ -8,6 +8,6 @@ class ShopperViewmodelFactory(private val repository: ShopperRepository) :
     ViewModelProvider.NewInstanceFactory()
 {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return super.create(ShopperViewModel::class.java) as T
+        return ShopperViewModel(repository) as T
     }
 }

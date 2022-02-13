@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class ShopperViewModel(private val repository: ShopperRepository) : ViewModel() {
 
-//call repo methods in coroutines
+//call repo methods with coroutines
     //lounch coroutines in main thread
     fun updateinsert(item: ShoppingItem) = CoroutineScope(Dispatchers.Main).launch {
         repository.updateinsert(item)
@@ -18,5 +18,5 @@ class ShopperViewModel(private val repository: ShopperRepository) : ViewModel() 
     fun delete(item: ShoppingItem) =CoroutineScope(Dispatchers.Main).launch {
         repository.delete(item)
     }
-    fun getAllItems(item: ShoppingItem) =repository.getAllItems()
+    fun getAllItems() =repository.getAllItems()
 }

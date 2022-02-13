@@ -2,6 +2,8 @@ package com.example.shopper
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,13 +12,19 @@ import com.example.shopper.data.ShopperDatabase
 import com.example.shopper.data.ShopperRepository
 import com.example.shopper.data.ShoppingItem
 import com.example.shopper.other.ShopperAdapter
+import com.example.shopper.ui.shopperlist.AddDialogListener
+import com.example.shopper.ui.shopperlist.ShopperAddItemDialog
 import com.example.shopper.ui.shopperlist.ShopperViewModel
 import com.example.shopper.ui.shopperlist.ShopperViewmodelFactory
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class ShopperActivity : AppCompatActivity() {
+    lateinit var fab : FloatingActionButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         val shopperdb=ShopperDatabase(this)
         val shopperrepo=ShopperRepository(shopperdb)
@@ -31,7 +39,34 @@ class MainActivity : AppCompatActivity() {
         recycler_view.layoutManager = LinearLayoutManager(this)
 
         //creates an adapter
-        recycler_view.adapter= ShopperAdapter(List<ShoppingItem>,shopperViewModel)
+        val adapter= ShopperAdapter(listOf(),shopperViewModel)
+        recycler_view.adapter=adapter
+
+
+
+        //fill the adapter with items
+        shopperViewModel.getAllItems().observe(this, Observer {
+          adapter.ShopperItems=it     //it => all items in the list
+            adapter.notifyDataSetChanged()
+        })
+
+        fab=findViewById(R.id.fab)
+
+        fab.setOnClickListener{
+
+            ShopperAddItemDialog(this,object : AddDialogListener{
+
+                //to eexcecute when add is clicked
+                override fun addButtonClicked(item: ShoppingItem) {
+                  shopperViewModel.updateinsert(item)
+                }
+
+            }).show()
+
+
+//         Toast.makeText(this,"lounch dialog",Toast.LENGTH_SHORT).show()
+//            return@setOnClickListener
+        }
 
     }
 }

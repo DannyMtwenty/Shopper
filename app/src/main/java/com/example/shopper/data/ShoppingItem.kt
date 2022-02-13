@@ -4,9 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "shopping_item")
+
 
 //table representation
+@Entity(tableName = "shopping_item")
 data class ShoppingItem(
     @ColumnInfo(name = "Item")  //col name
     var itemName:String,
