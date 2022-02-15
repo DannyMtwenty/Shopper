@@ -17,18 +17,22 @@ import com.example.shopper.ui.shopperlist.ShopperAddItemDialog
 import com.example.shopper.ui.shopperlist.ShopperViewModel
 import com.example.shopper.ui.shopperlist.ShopperViewmodelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.kodein.di.android.kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.generic.instance
 
-class ShopperActivity : AppCompatActivity() {
+class ShopperActivity : AppCompatActivity(),KodeinAware {
     lateinit var fab : FloatingActionButton
+
+    override val kodein by kodein()
+    private val shopperViewmodelFactory:ShopperViewmodelFactory by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        val shopperdb=ShopperDatabase(this)
-        val shopperrepo=ShopperRepository(shopperdb)
-        val shopperViewmodelFactory=ShopperViewmodelFactory(shopperrepo)
+
 
         //get the viewmodel
         val shopperViewModel = ViewModelProviders.of(this,shopperViewmodelFactory).get(ShopperViewModel::class.java)
